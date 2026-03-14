@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mahmoud Adel — Supply Chain × Data</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --paper2: #ede8df;
+  --accent: #c8430a;
+  --accent2: #e05518;
+  --muted: #7a7060;
+  --faint: #d4cfc6;
+  --white: #ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Cabinet Grotesk',sans-serif;overflow-x:hidden;cursor:none}
+.cursor{width:12px;height:12px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform 0.15s ease;transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:transform 0.4s ease,opacity 0.2s;transform:translate(-50%,-50%);opacity:0.5}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;mix-blend-mode:multiply}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--ink);text-decoration:none}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--accent)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 60px;position:relative;overflow:hidden}
+.hero-texture{position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,0.06) 1px,transparent 0);background-size:28px 28px;pointer-events:none}
+.hero-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:32px;opacity:0;animation:slideIn 0.7s 0.2s ease forwards}
+.eyebrow-line{width:48px;height:1px;background:var(--accent)}
+.eyebrow-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent)}
+.hero-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,13vw,200px);line-height:0.88;letter-spacing:-1px;color:var(--ink);opacity:0;animation:slideIn 0.7s 0.35s ease forwards}
+.hero-headline .outline{-webkit-text-stroke:2px var(--ink);color:transparent}
+.hero-headline .acc{color:var(--accent)}
+.hero-sub-row{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:40px;flex-wrap:wrap;opacity:0;animation:slideIn 0.7s 0.5s ease forwards}
+.hero-description{max-width:460px;font-size:16px;color:var(--muted);line-height:1.75}
+.hero-description strong{color:var(--ink);font-weight:700}
+.hero-ctas{display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap}
+.btn-fill{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:13px;padding:14px 28px;border-radius:4px;text-decoration:none;transition:all 0.25s}
+.btn-fill:hover{background:var(--accent2);transform:translateY(-3px);box-shadow:0 16px 32px rgba(200,67,10,0.25)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:13px;padding:13px 28px;border-radius:4px;border:1.5px solid var(--faint);text-decoration:none;transition:all 0.25s}
+.btn-outline:hover{border-color:var(--ink);transform:translateY(-3px)}
+.ticker{background:var(--ink);color:var(--paper);padding:14px 0;overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:ticker 30s linear infinite}
+.ticker-item{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;padding:0 40px;display:inline-flex;align-items:center;gap:40px}
+.ticker-item::after{content:'✦';color:var(--accent);font-size:10px}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+section{padding:100px 60px;position:relative}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.label::before{content:'';width:28px;height:1px;background:var(--accent)}
+.big-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,88px);line-height:0.92;letter-spacing:1px;color:var(--ink);margin-bottom:64px}
+.big-title span{color:var(--accent)}
+#about{background:var(--paper2);border-top:1px solid var(--faint)}
+.about-layout{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:start}
+.pull-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,3.5vw,48px);line-height:1.05;color:var(--ink);margin-bottom:32px;letter-spacing:1px}
+.pull-quote span{color:var(--accent)}
+.story-body p{font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:20px}
+.story-body p strong{color:var(--ink);font-weight:700}
+.sidebar-block{background:var(--white);border:1px solid var(--faint);border-radius:8px;padding:28px;margin-bottom:16px}
+.sidebar-block-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--faint)}
+.skill-list{display:flex;flex-wrap:wrap;gap:8px}
+.skill-pill{font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;border-radius:100px;background:var(--paper2);color:var(--ink);border:1px solid var(--faint);transition:all 0.2s}
+.skill-pill:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.skill-pill.hot{background:rgba(200,67,10,0.1);border-color:rgba(200,67,10,0.3);color:var(--accent)}
+.exp-item{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:40px 0;border-top:1px solid var(--faint);opacity:0;transform:translateY(20px);transition:all 0.5s ease}
+.exp-item.visible{opacity:1;transform:translateY(0)}
+.exp-item:last-child{border-bottom:1px solid var(--faint)}
+.exp-period{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:0.04em}
+.exp-company{font-weight:800;font-size:13px;color:var(--ink);margin-bottom:4px}
+.exp-type{font-size:12px;color:var(--muted)}
+.exp-role{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--ink);margin-bottom:12px;line-height:1}
+.exp-story{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px;max-width:600px}
+.exp-tags{display:flex;gap:8px;flex-wrap:wrap}
+.exp-tag{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:3px;background:var(--paper2);color:var(--muted);border:1px solid var(--faint);letter-spacing:0.06em;text-transform:uppercase}
+.exp-tag.hot{background:rgba(200,67,10,0.08);color:var(--accent);border-color:rgba(200,67,10,0.25)}
+#projects{background:var(--ink);color:var(--paper)}
+#projects .big-title{color:var(--paper)}
+#projects .big-title span{color:var(--accent)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.proj-card{background:#161616;padding:36px;position:relative;overflow:hidden;transition:background 0.3s;opacity:0;transform:translateY(30px)}
+.proj-card.visible{opacity:1;transform:translateY(0)}
+.proj-card:hover{background:#1e1e1e}
+.proj-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width 0.4s ease}
+.proj-card:hover::after{width:100%}
+.proj-number{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,255,255,0.05);line-height:1;margin-bottom:16px;transition:color 0.3s}
+.proj-card:hover .proj-number{color:rgba(200,67,10,0.15)}
+.proj-title{font-size:18px;font-weight:800;color:var(--paper);margin-bottom:12px;line-height:1.3}
+.proj-insight{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);background:rgba(200,67,10,0.12);border:1px solid rgba(200,67,10,0.3);padding:4px 10px;border-radius:3px;margin-bottom:16px}
+.proj-desc{font-size:13px;color:#666;line-height:1.75;margin-bottom:24px}
+.proj-bullets{list-style:none;margin-bottom:24px}
+.proj-bullets li{font-size:12px;color:#555;padding:5px 0 5px 18px;position:relative;line-height:1.5}
+.proj-bullets li::before{content:'—';position:absolute;left:0;color:var(--accent)}
+.proj-footer{display:flex;gap:6px;flex-wrap:wrap;padding-top:20px;border-top:1px solid #222}
+.proj-tool{font-family:'DM Mono',monospace;font-size:10px;padding:4px 8px;background:#222;color:#555;border-radius:3px;letter-spacing:0.04em}
+#certifications{border-top:1px solid var(--faint)}
+.certs-layout{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.cert-item{background:var(--white);border:1px solid var(--faint);padding:32px;display:flex;gap:20px;align-items:flex-start;transition:all 0.25s;opacity:0;transform:translateY(16px);position:relative;overflow:hidden}
+.cert-item.visible{opacity:1;transform:translateY(0)}
+.cert-item:hover{border-color:var(--accent)}
+.cert-item::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--accent);transition:height 0.3s}
+.cert-item:hover::before{height:100%}
+.cert-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--faint);line-height:1;flex-shrink:0;transition:color 0.2s}
+.cert-item:hover .cert-num{color:rgba(200,67,10,0.2)}
+.cert-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.cert-issuer{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:10px;letter-spacing:0.06em;text-transform:uppercase}
+.cert-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;border-radius:3px;letter-spacing:0.06em;text-transform:uppercase}
+.cert-badge.done{background:rgba(0,150,100,0.1);color:#007a50;border:1px solid rgba(0,150,100,0.25)}
+.cert-badge.wip{background:rgba(200,67,10,0.1);color:var(--accent);border:1px solid rgba(200,67,10,0.25)}
+.cert-badge.edu{background:rgba(100,100,100,0.08);color:var(--muted);border:1px solid var(--faint)}
+#contact{background:var(--accent);color:#fff;text-align:center;padding:120px 60px}
+.contact-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,9vw,140px);line-height:0.88;letter-spacing:2px;color:#fff;margin-bottom:24px}
+.contact-sub{font-size:16px;color:rgba(255,255,255,0.75);max-width:500px;margin:0 auto 48px;line-height:1.75}
+.contact-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.contact-link{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.3);color:#fff;font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:13px;padding:14px 28px;border-radius:4px;text-decoration:none;transition:all 0.25s;letter-spacing:0.02em}
+.contact-link:hover{background:rgba(255,255,255,0.22);transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,0.2)}
+footer{background:var(--ink);padding:28px 60px;display:flex;justify-content:space-between;align-items:center}
+footer .f-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:var(--paper)}
+footer .f-copy{font-family:'DM Mono',monospace;font-size:10px;color:#444;letter-spacing:0.06em}
+@keyframes slideIn{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--paper)}
+::-webkit-scrollbar-thumb{background:var(--accent)}
+@media(max-width:900px){
+  nav{padding:16px 24px}.nav-links{display:none}
+  section{padding:72px 24px}.hero{padding:100px 24px 60px}
+  .hero-headline{font-size:clamp(64px,16vw,100px)}
+  .about-layout{grid-template-columns:1fr}
+  .exp-item{grid-template-columns:1fr;gap:8px}
+  .proj-grid{grid-template-columns:1fr}
+  .certs-layout{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="nav-logo">MA.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-texture"></div>
+  <div class="hero-eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Available — Supply Chain Planning Roles</span>
+  </div>
+  <h1 class="hero-headline">
+    MAHMOUD<br/>
+    <span class="outline">ADEL</span><br/>
+    <span class="acc">SHOKR.</span>
+  </h1>
+  <div class="hero-sub-row">
+    <p class="hero-description">
+      Most supply chain people <strong>can't read data.</strong><br/>
+      Most data people <strong>have never touched a warehouse.</strong><br/>
+      I spent years doing both — and I turn
+      <strong>operational chaos into planning clarity.</strong>
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-fill">See My Work →</a>
+      <a href="https://www.linkedin.com/in/mahmoud-adel-shokr-976498346" target="_blank" class="btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">SUPPLY CHAIN PLANNING</span>
+    <span class="ticker-item">DEMAND FORECASTING</span>
+    <span class="ticker-item">INVENTORY MANAGEMENT</span>
+    <span class="ticker-item">POWER BI</span>
+    <span class="ticker-item">SQL & PYTHON</span>
+    <span class="ticker-item">FMCG OPERATIONS</span>
+    <span class="ticker-item">WMS SYSTEMS</span>
+    <span class="ticker-item">DATA ANALYTICS</span>
+    <span class="ticker-item">SUPPLY CHAIN PLANNING</span>
+    <span class="ticker-item">DEMAND FORECASTING</span>
+    <span class="ticker-item">INVENTORY MANAGEMENT</span>
+    <span class="ticker-item">POWER BI</span>
+    <span class="ticker-item">SQL & PYTHON</span>
+    <span class="ticker-item">FMCG OPERATIONS</span>
+    <span class="ticker-item">WMS SYSTEMS</span>
+    <span class="ticker-item">DATA ANALYTICS</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="label">01 — About</div>
+  <div class="big-title">The story<br/>behind the <span>numbers.</span></div>
+  <div class="about-layout">
+    <div>
+      <div class="pull-quote">I didn't start at a desk.<br/>I started on the <span>warehouse floor.</span></div>
+      <div class="story-body">
+        <p>While others were learning supply chain from textbooks, I was inside an <strong>FMCG Food & Beverages facility</strong> — counting stock, chasing discrepancies, and understanding why the numbers never quite matched what the system said. That gap? That's where I live.</p>
+        <p>At <strong>Noon E-Commerce</strong>, I didn't stick to one role. I rotated through Fulfillment, Inventory Audit, and Logistics — watching the same product move from receiving dock to customer door. You can't fake that kind of visibility.</p>
+        <p>Then I picked up a keyboard. <strong>Power BI, SQL, Python, DAX.</strong> I built dashboards that detected margin leakage, predicted churn, and told stories that spreadsheets couldn't. Now I'm combining both worlds through a <strong>Demand Planning specialization on Coursera</strong>.</p>
+        <p>I'm looking for an FMCG team that wants a planner who <strong>understands what happens between the data and the dock.</strong></p>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-block">
+        <div class="sidebar-block-title">Technical Skills</div>
+        <div class="skill-list">
+          <span class="skill-pill hot">Power BI</span><span class="skill-pill hot">SQL</span><span class="skill-pill hot">Python</span><span class="skill-pill hot">DAX</span><span class="skill-pill">Excel</span><span class="skill-pill">Data Modeling</span>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-block-title">Supply Chain Skills</div>
+        <div class="skill-list">
+          <span class="skill-pill hot">Demand Planning</span><span class="skill-pill hot">Inventory Control</span><span class="skill-pill hot">WMS Operations</span><span class="skill-pill">Cycle Counting</span><span class="skill-pill">FMCG Logistics</span><span class="skill-pill">KPI Monitoring</span>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-block-title">Currently</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          📍 Cairo, Egypt<br/>
+          🎓 Demand Planning — Coursera <em>(In Progress)</em><br/>
+          🔍 Open to FMCG Planning roles
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="label">02 — Experience</div>
+  <div class="big-title">Where I earned<br/>my <span>calluses.</span></div>
+
+  <div class="exp-item">
+    <div>
+      <div class="exp-period">Jan 2025 — Present</div>
+      <div class="exp-company">Freelance</div>
+      <div class="exp-type">Data Analytics</div>
+    </div>
+    <div>
+      <div class="exp-role">Data Analyst</div>
+      <p class="exp-story">Clients don't hire me for charts — they hire me because I ask the question nobody else asks: <em>"Why is this number wrong?"</em> End-to-end Power BI dashboards, SQL queries that surface what reports hide, and Python pipelines that turn raw exports into boardroom decisions.</p>
+      <div class="exp-tags"><span class="exp-tag hot">Power BI</span><span class="exp-tag hot">SQL</span><span class="exp-tag hot">Python</span><span class="exp-tag">DAX</span><span class="exp-tag">Excel</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div>
+      <div class="exp-period">2023 — 2024</div>
+      <div class="exp-company">Noon E-Commerce</div>
+      <div class="exp-type">3 Departments</div>
+    </div>
+    <div>
+      <div class="exp-role">Supply Chain Associate</div>
+      <p class="exp-story">They gave me one job. I did three. Fulfillment taught me how inventory moves. Audit taught me why the numbers lie. Logistics taught me what happens when both go wrong at 2am. Three rotations, one internal WMS, and a complete picture of e-commerce supply chain that most planners never see.</p>
+      <div class="exp-tags"><span class="exp-tag hot">Fulfillment</span><span class="exp-tag hot">Inventory Audit</span><span class="exp-tag hot">Logistics</span><span class="exp-tag">WMS</span><span class="exp-tag">Cycle Count</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div>
+      <div class="exp-period">2022 — 2023</div>
+      <div class="exp-company">FMCG — Food & Beverages</div>
+      <div class="exp-type">Final Product Dept.</div>
+    </div>
+    <div>
+      <div class="exp-role">Inventory Specialist</div>
+      <p class="exp-story">Final product. High volume. Zero tolerance for error. I managed WMS tracking and cycle counts for finished goods in an environment where one missed count meant a production line stops. I learned what inventory accuracy actually costs — not in theory, but in real shifts and real consequences.</p>
+      <div class="exp-tags"><span class="exp-tag hot">FMCG</span><span class="exp-tag hot">WMS</span><span class="exp-tag">Inventory Control</span><span class="exp-tag">Cycle Counting</span><span class="exp-tag">Final Product</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="label" style="color:var(--accent)">03 — Projects</div>
+  <div class="big-title">Numbers that<br/>changed <span>something.</span></div>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <div class="proj-number">01</div>
+      <div class="proj-title">Retail Price Optimization Dashboard</div>
+      <div class="proj-insight">↑ Found 9% hidden margin leakage</div>
+      <p class="proj-desc">A pricing team was leaving money on the table. They didn't know how much until I built this. End-to-end Power BI analysis across product lines, regions, and discount structures — with one uncomfortable finding that changed their entire pricing strategy.</p>
+      <ul class="proj-bullets">
+        <li>Elasticity analysis exposed systematic over-discounting on top SKUs</li>
+        <li>Regional price benchmarks revealed 3 underperforming markets</li>
+        <li>Seasonal demand model improved promotional ROI recommendations</li>
+      </ul>
+      <div class="proj-footer"><span class="proj-tool">Power BI</span><span class="proj-tool">DAX</span><span class="proj-tool">Excel</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-number">02</div>
+      <div class="proj-title">Telecom Customer Churn Dashboard</div>
+      <div class="proj-insight">↓ 26.54% churn — isolated the cause</div>
+      <p class="proj-desc">The client knew customers were leaving. They didn't know which ones, why, or when. I built the system that told them. Segment by segment, contract by contract — until the pattern was impossible to ignore.</p>
+      <ul class="proj-bullets">
+        <li>Fiber Optic + Month-to-Month = highest churn cluster identified</li>
+        <li>Segmented 7,000+ customers by service, payment & usage profile</li>
+        <li>Retention strategy recommendations targeted the right segment</li>
+      </ul>
+      <div class="proj-footer"><span class="proj-tool">Power BI</span><span class="proj-tool">SQL</span><span class="proj-tool">DAX</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-number">03</div>
+      <div class="proj-title">Bike Store Sales & Inventory Analysis</div>
+      <div class="proj-insight">→ Redefined how KPIs were tracked</div>
+      <p class="proj-desc">Sales data existed. Inventory data existed. Nobody had connected them. I built the bridge — showing exactly which models turned fast, which regions were underserved, and which inventory was silently aging on the shelf.</p>
+      <ul class="proj-bullets">
+        <li>Identified top 5 seasonal demand peaks missed by existing reports</li>
+        <li>Product category analysis shifted procurement priorities for Q4</li>
+        <li>Custom KPI framework now used for monthly operations reviews</li>
+      </ul>
+      <div class="proj-footer"><span class="proj-tool">Power BI</span><span class="proj-tool">Excel</span><span class="proj-tool">SQL</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="label">04 — Education & Certifications</div>
+  <div class="big-title">Always one skill<br/>ahead of <span>yesterday.</span></div>
+  <div class="certs-layout">
+    <div class="cert-item">
+      <div class="cert-num">01</div>
+      <div><div class="cert-name">Demand Planning Specialization</div><div class="cert-issuer">Coursera</div><span class="cert-badge wip">In Progress</span></div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-num">02</div>
+      <div><div class="cert-name">Google Data Analytics Specialist</div><div class="cert-issuer">DEPI — Digital Egypt Pioneers Initiative</div><span class="cert-badge done">Completed</span></div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-num">03</div>
+      <div><div class="cert-name">Data Analytics with Power BI</div><div class="cert-issuer">Microsoft / Coursera</div><span class="cert-badge done">Completed</span></div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-num">04</div>
+      <div><div class="cert-name">Bachelor of Commerce — Finance</div><div class="cert-issuer">Cairo University · Faculty of Commerce · 2018–2022</div><span class="cert-badge edu">Grade: Good</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-big">LET'S<br/>TALK.</div>
+  <p class="contact-sub">If you're building a supply chain team that wants someone who understands both the data and the dock — I don't just send CVs. I come with context.</p>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/mahmoud-adel-shokr-976498346" target="_blank" class="contact-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      Connect on LinkedIn
+    </a>
+    <a href="https://github.com/mahmoud-shokr70" target="_blank" class="contact-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      View GitHub
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="f-logo">MA.</span>
+  <span class="f-copy">MAHMOUD ADEL SHOKR — CAIRO, EGYPT 🇪🇬</span>
+  <span class="f-copy">SUPPLY CHAIN × DATA ANALYTICS</span>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+(function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';ring.style.opacity='0'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.opacity='0.5'});
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target)}});
+},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.exp-item,.proj-card,.cert-item').forEach(el=>obs.observe(el));
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('section[id]').forEach(s=>{
+    if(window.scrollY>=s.offsetTop-130)
+      document.querySelectorAll('.nav-links a').forEach(a=>{a.style.color=a.getAttribute('href')==='#'+s.id?'var(--accent)':''});
+  });
+});
+</script>
+</body>
+</html>
